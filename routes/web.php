@@ -16,3 +16,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
+Route::get('/test', function () {
+    return !!file_exists(base_path('email'));
+})->middleware(['auth']);
+
+Route::get('/create', function () {
+    return !!touch(base_path('email'));
+})->middleware(['auth']);
+
+Route::get('/delete', function () {
+    return !!unlink(base_path('email'));
+})->middleware(['auth']);
