@@ -16,7 +16,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new TestQueue)->everyMinute();
+        if (file_exists(base_path('job'))) {
+            $schedule->job(new TestQueue)->everyMinute();
+        }
+        $schedule->command('inspire')->everyTenMinutes()->appendOutputTo(storage_path('logs/laravel.log'));
     }
 
     /**
